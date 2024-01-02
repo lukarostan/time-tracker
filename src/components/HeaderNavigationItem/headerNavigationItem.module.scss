@@ -1,0 +1,12 @@
+.headerNavigationItem {
+  display: flex;
+  flex-direction: row;
+  color: white;
+  align-items: center;
+  height: fit-content;
+  width: 180px;
+  cursor: pointer;
+  img {
+    margin-right: 8px;
+  }
+}
