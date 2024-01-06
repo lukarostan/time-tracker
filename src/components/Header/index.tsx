@@ -5,18 +5,21 @@ import HeaderNavigation from '@/components/HeaderNavigationItem';
 
 const navigationItems = [
     {
+        id: 1,
         title: "Trackers",
         imageName: "clock",
         alt: "trackers",
         isActive: false
     },
     {
+        id: 2,
         title: "History",
         imageName: "history",
         alt: "history",
         isActive: false
     },
     {
+        id: 3,
         title: "Logout",
         imageName: "logout",
         alt: "logout",
@@ -31,7 +34,7 @@ export default function Header(): ReactElement {
                 <p>Tracking tool</p>
             </div>
             <div className={style.navigationWrapper}>
-                {navigationItems.map(item => <HeaderNavigation title={item.title} imageName={item.imageName} alt={item.alt} isActive={item.isActive}/>)}
+                {navigationItems.map(item => <HeaderNavigation key={item.id} title={item.title} imageName={item.imageName} alt={item.alt} isActive={item.isActive}/>)}
             </div>
         </header>
     );

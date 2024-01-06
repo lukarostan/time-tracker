@@ -1,0 +1,15 @@
+@import 'src/app/variables.module';
+.addForm {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  background: $bg-white-lilac;
+  border-radius: $global-radius;
+  margin-bottom: 20px;
+  padding: 16px;
+  width: fit-content;
+  .controlsWrapper {
+    margin-bottom: unset !important;
+  }
+}

@@ -1,5 +1,15 @@
 import { initializeApp } from "firebase/app";
-import {collection, Firestore, getDocs, getFirestore} from "firebase/firestore";
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    DocumentReference,
+    Firestore,
+    getDocs,
+    getFirestore,
+    setDoc
+} from "firebase/firestore";
 import {mapLogFromResponse} from '@/infrastructure/LogMapper';
 import {log} from '@/api/LogRepository';
 
@@ -30,7 +40,7 @@ class FirestoreInitializer {
         db = getFirestore(app)
     }
 
-    async get(path: string) {
+    async get(path: string): Promise<log[] | undefined> {
         try {
             let formattedLogs: log[] = [];
             const response = await getDocs(collection(db, path))
@@ -43,6 +53,45 @@ class FirestoreInitializer {
         }
         catch (e: unknown) {
             console.error(e)
+        }
+
+    }
+
+    async add(path: string, data: Partial<log>): Promise<DocumentReference | {}> {
+        try {
+            const docRef = await addDoc(collection(db, path), data)
+
+            return docRef
+        }
+        catch (e: unknown) {
+            console.error(e)
+            return {};
+        }
+
+    }
+
+    async update(path: string, id: string, data: Partial<log>): Promise<boolean> {
+        try {
+            await setDoc(doc(db, path, id), data)
+
+            return true
+        }
+        catch (e: unknown) {
+            console.error(e)
+            return false;
+        }
+
+    }
+
+    async delete(path: string, id: string): Promise<boolean> {
+        try {
+            await deleteDoc(doc(db, path, id))
+
+            return true
+        }
+        catch (e: unknown) {
+            console.error(e)
+            return false;
         }
 
     }
