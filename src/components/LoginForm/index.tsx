@@ -17,13 +17,13 @@ export default function LoginForm({onLoginClick}: Props) {
                 <p>Login</p>
                 <InputText placeholder="Username"/>
                 <Password placeholder="Password" toggleMask />
-                <Button label="Login" onClick={() => onLoginClick() }/>
+                <Link href={'/trackers'}>Login</Link>
             </div>
             <div className={style.registrationCta}>
                 <Image width={95} height={95} src="user.svg" alt="register here"/>
                 <div className={style.ctaWrapper}>
                     <p>Need an account?</p>
-                    <Link href={"#"}>Register here</Link>
+                    <Link href={"#"} style={{textDecoration: 'none'}}>Register here</Link>
                 </div>
             </div>
         </div>

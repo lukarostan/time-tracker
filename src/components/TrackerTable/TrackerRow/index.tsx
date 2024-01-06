@@ -70,7 +70,8 @@ export function TrackerRow({log, onUpdateLog, onDeleteLog}: Props) {
         timer.pause();
         onUpdateLog(log.id, {
             description: log.description,
-            time: timer.getTotalTimeValues().seconds
+            time: timer.getTotalTimeValues().seconds,
+            date: log.date
         });
     };
 
@@ -90,7 +91,8 @@ export function TrackerRow({log, onUpdateLog, onDeleteLog}: Props) {
     const onEditSubmit = ():void => {
         onUpdateLog(log.id, {
             description: descriptionEdit,
-            time: timer.getTotalTimeValues().seconds
+            time: timer.getTotalTimeValues().seconds,
+            date: log.date
         });
         setEditMode(false);
     }

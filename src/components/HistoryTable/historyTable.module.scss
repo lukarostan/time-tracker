@@ -1,0 +1,23 @@
+@import "src/app/variables.module";
+.actions {
+  display: flex;
+  align-items: center;
+  user-select: none;
+  img {
+    cursor: pointer;
+  }
+}
+.logsContainer {
+  margin-bottom: 120px;
+  .logsTable {
+    border: 1px solid $border;
+    border-radius: $global-radius;
+    .headerRow {
+      background: $border;
+      td {
+        padding: 30px;
+      }
+    }
+  }
+
+}

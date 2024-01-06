@@ -1,20 +1,26 @@
 import {ReactElement} from 'react';
 import style from './headerNavigationItem.module.scss';
 import Image from 'next/image';
+import Link from 'next/link';
+import {usePathname} from 'next/navigation';
+import clsx from 'clsx';
 
 type Props = {
-    title: string,
-    imageName: string,
-    alt: string,
-    isActive: boolean
+    props: {
+        title: string,
+        imageName: string,
+        alt: string,
+        link: string
+    }
 }
 
-export default function HeaderNavigationItem({title, imageName, alt, isActive}: Props): ReactElement {
+export default function HeaderNavigationItem({props}: Props): ReactElement {
+    const pathname = usePathname()
 
     return (
-        <div className={style.headerNavigationItem}>
-            <Image width="24" height="24" alt={alt} src={`${imageName}.svg`}/>
-            <p className={style.title}>{title}</p>
+        <div className={clsx(style.headerNavigationItem, pathname !== '/' && pathname === props.link ? style.active : '')}>
+            <Image width="24" height="24" alt={props.alt} src={`${props.imageName}.svg`}/>
+            <Link href={props.link} className={style.title} style={{textDecoration: 'none'}}>{props.title}</Link>
         </div>
     );
 }
