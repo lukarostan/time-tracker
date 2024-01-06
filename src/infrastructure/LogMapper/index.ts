@@ -5,6 +5,7 @@ import {DocumentData} from '@firebase/firestore';
         return {
             id: id,
             description: data?.description,
-            time: data?.time
+            time: data?.time,
+            date: data?.date
         }
     }
