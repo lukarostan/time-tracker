@@ -1,17 +1,17 @@
 import {createContext, ReactElement, useEffect, useState} from 'react';
-import LogRepository, {log} from '@/api/LogRepository';
 import style from './activeTrackers.module.scss';
-import TrackerTable from '@/components/TrackerTable';
 import Image from 'next/image';
 import moment from 'moment';
 import {Button} from 'primereact/button';
-import AddForm from '@/components/AddForm';
 import Timer from 'easytimer.js';
+import LogRepository, {log} from '@/infrastructure/LogRepository';
+import {AddForm} from '@/components/AddForm';
+import {TrackerTable} from '@/components/TrackerTable';
 
 export const InstancesContext = createContext<contextValue>({} as unknown as contextValue);
 
 type contextValue = {
-    set: (instance: {id: string, timer: Timer}) => void;
+    set: (instance: { id: string, timer: Timer }) => void;
     cleanupOnPlay: (id: string) => void;
 }
 
@@ -19,15 +19,14 @@ export function ActiveTrackers(): ReactElement {
     const [logs, setLogs] = useState<[] | log[]>([]);
     const repository: LogRepository = new LogRepository();
     const [addMode, setAddMode] = useState<boolean>(false);
-    // @todo: wip
-    const [trackerInstances, setTrackerInstances] = useState<{ id: string, timer: Timer }[]>([])
+    const [trackerInstances, setTrackerInstances] = useState<{ id: string, timer: Timer }[]>([]);
     const contextValue = {
-        set: (instance: {id: string, timer: Timer}) => {
-                setTrackerInstances(prevState => [...prevState, instance])
+        set: (instance: { id: string, timer: Timer }) => {
+            setTrackerInstances(prevState => [...prevState, instance]);
         },
         cleanupOnPlay: (id: string) => cleanupOnPlay(id),
         trackerInstances: trackerInstances
-    } as unknown as contextValue
+    } as unknown as contextValue;
 
 
     const getLogs = async () => {
@@ -54,7 +53,7 @@ export function ActiveTrackers(): ReactElement {
             date: parseInt(moment().format('X'), 10)
         };
         await repository.addLog(logModel);
-        getLogs()
+        getLogs();
         setAddMode(false);
     };
 
@@ -85,21 +84,20 @@ export function ActiveTrackers(): ReactElement {
 
     const cleanupOnPlay = (playedId: string) => {
         // todo: feature disabled because of bug
-        let instancesToPause = trackerInstances
-        instancesToPause = instancesToPause.filter(instance => instance.id !== playedId)
-        instancesToPause.forEach(instance => instance.timer.pause())
-    }
+        let instancesToPause = trackerInstances;
+        instancesToPause = instancesToPause.filter(instance => instance.id !== playedId);
+        instancesToPause.forEach(instance => instance.timer.pause());
+    };
 
     const stopAllTimers = () => {
-        let instancesToStop = trackerInstances
-        instancesToStop.forEach(instance => instance.timer.stop())
-    }
-
+        let instancesToStop = trackerInstances;
+        instancesToStop.forEach(instance => instance.timer.stop());
+    };
 
     const today = moment().format('DD.MM.YYYY');
 
     return <InstancesContext.Provider value={contextValue}>
-    <div className={style.activeTrackers}>
+        <div className={style.activeTrackers}>
             <div className={style.currentDate}>
                 <Image src="calendar.svg" alt={today} width={25} height={25}/>
                 <h2>Today ({today})</h2>
@@ -115,8 +113,8 @@ export function ActiveTrackers(): ReactElement {
                 </Button>
             </div>
             {addMode && <AddForm onAddCancel={onAddCancel} onAddSubmit={onAddSubmit}/>}
-        <TrackerTable logs={logs} onUpdateLog={onUpdateLog} onDeleteLog={onDeleteLog}></TrackerTable>
+            <TrackerTable logs={logs} onUpdateLog={onUpdateLog} onDeleteLog={onDeleteLog}></TrackerTable>
         </div>
     </InstancesContext.Provider>
-    ;
+        ;
 }

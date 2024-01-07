@@ -1,7 +1,7 @@
 "use client";
-import {ChangeEvent, useState} from 'react';
+import {useState} from 'react';
 import Image from 'next/image';
-import {log} from '@/api/LogRepository';
+import {log} from '@/infrastructure/LogRepository';
 import style from './historyRow.module.scss';
 import moment from 'moment';
 import {InputText} from 'primereact/inputtext';
@@ -20,21 +20,20 @@ export function HistoryRow({log, onUpdateLog, onDeleteLog}: Props) {
         setEditMode(true);
     };
 
-    const onEditCancel = ():void => {
-        setEditMode(false)
-    }
+    const onEditCancel = (): void => {
+        setEditMode(false);
+    };
 
-    const onEditSubmit = ():void => {
+    const onEditSubmit = (): void => {
         onUpdateLog(log.id, {
             description: descriptionEdit,
             time: 2,
             date: log.date
         });
         setEditMode(false);
-    }
+    };
 
-    const formattedDate = moment.unix(log.date).format('DD.MM.YYYY')
-
+    const formattedDate = moment.unix(log.date).format('DD.MM.YYYY');
     const formattedTime = moment.utc(log.time * 1000).format('HH:mm:ss');
 
     return (<tr className={style.trackerRow}>
@@ -44,9 +43,11 @@ export function HistoryRow({log, onUpdateLog, onDeleteLog}: Props) {
             {editMode ?
                 <td>
                     <div className={style.editContainer}>
-                        <InputText value={descriptionEdit} onInput={e => setDescriptionEdit((e.target as HTMLInputElement).value)}/>
+                        <InputText value={descriptionEdit}
+                                   onInput={e => setDescriptionEdit((e.target as HTMLInputElement).value)}/>
                         <div className={style.editControl} onClick={onEditSubmit}>✔️</div>
-                        <div className={style.editControl} onClick={onEditCancel}>✖️</div>️
+                        <div className={style.editControl} onClick={onEditCancel}>✖️</div>
+                        ️
                     </div>
                 </td>
                 :
@@ -61,7 +62,6 @@ export function HistoryRow({log, onUpdateLog, onDeleteLog}: Props) {
                 <Image src="edit.svg" alt="edit timer" onClick={onEditClick} height={24} width={24}/>
                 <Image src="delete.svg" alt="delete timer" onClick={() => onDeleteLog(log.id)} height={24} width={24}/>
             </td>
-
         </tr>
     );
 }

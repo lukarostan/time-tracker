@@ -12,7 +12,7 @@ import {
     query, where
 } from "firebase/firestore";
 import {mapLogFromResponse} from '@/infrastructure/LogMapper';
-import {log} from '@/api/LogRepository';
+import {log} from '@/infrastructure/LogRepository';
 
 let instance: FirestoreInitializer | null;
 let app;

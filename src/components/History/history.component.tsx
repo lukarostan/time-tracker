@@ -1,11 +1,11 @@
 import {ReactElement, useEffect, useState} from 'react';
-import LogRepository, {log} from '@/api/LogRepository';
 import style from './history.module.scss';
-import HistoryTable from '@/components/HistoryTable';
 import {InputText} from 'primereact/inputtext';
 import {Calendar} from 'primereact/calendar';
 import clsx from 'clsx';
 import moment from 'moment';
+import LogRepository, {log} from '@/infrastructure/LogRepository';
+import {HistoryTable} from '@/components/HistoryTable';
 
 export function History(): ReactElement {
     const [logs, setLogs] = useState<[] | log[]>([]);
