@@ -16,7 +16,7 @@ export default function LoginForm({onLoginClick}: Props) {
             <div className={style.loginForm}>
                 <p>Login</p>
                 <InputText placeholder="Username"/>
-                <Password placeholder="Password" toggleMask />
+                <Password  style={{width: '100%'}} placeholder="Password" toggleMask />
                 <Link href={'/trackers'}>Login</Link>
             </div>
             <div className={style.registrationCta}>
