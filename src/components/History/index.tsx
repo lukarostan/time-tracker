@@ -73,15 +73,15 @@ export function History(): ReactElement {
             <div className={style.controlsWrapper}>
                 <span className={clsx(style.inputContainer,"p-float-label")}>
                     <Calendar style={{width: '100%'}} dateFormat="dd.mm.yy." inputId="start_date" value={startDateFilter} onChange={(e) => setStartDateFilter(e.value)} />
-                    <label htmlFor="start_date">Start Date</label>
+                    <label style={{transform: 'translateY(-0.25rem)'}} htmlFor="start_date">Start Date</label>
                 </span>
                 <span className={clsx(style.inputContainer,"p-float-label")}>
                     <Calendar style={{width: '100%'}} dateFormat="dd.mm.yy." inputId="end_date" value={endDateFilter} onChange={(e) => setEndDateFilter(e.value)} />
-                    <label htmlFor="end_date">End Date</label>
+                    <label style={{transform: 'translateY(-0.25rem)'}} htmlFor="end_date">End Date</label>
                 </span>
                 <span className={clsx(style.inputContainer,"p-float-label")}>
                     <InputText value={descriptionFilter} width={'100%'} id="description" onChange={(e) => setDescriptionFilter(e.target.value)}/>
-                    <label htmlFor="description">Description</label>
+                    <label style={{transform: 'translateY(-0.25rem)'}} htmlFor="description">Description</label>
                 </span>
 
             </div>
