@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import useTimer from 'easytimer-react-hook';
 import Image from 'next/image';
 import {log} from '@/api/LogRepository';
@@ -10,7 +10,7 @@ import {InstancesContext} from '@/components/ActiveTrackers';
 
 type Props = {
     log: log;
-    onUpdateLog: (id: string, data: Partial<log>) => void;
+    onUpdateLog: (id: string, data: Partial<log>, isLiveUpdate?: boolean) => void;
     onDeleteLog: (id: string) => void;
 }
 
@@ -19,32 +19,55 @@ export function TrackerRow({log, onUpdateLog, onDeleteLog}: Props) {
     const [timerPlaying, setTimerPlaying] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [descriptionEdit, setDescriptionEdit] = useState(log.description);
+    const [liveUpdateInterval, setLiveUpdateInterval] = useState<NodeJS.Timeout | null>();
 
-    const [timer, isTargetAchieved] = useTimer({
-        /* Hook configuration */
-    });
+    const [timer] = useTimer({});
 
     // const instances = useContext(InstancesContext)
 
     useEffect(() => {
-        // @todo: wip
-        // instances.set({id: log.id, timer: timer})
+        // todo: feature disabled because of bug
+        //instances.set({id: log.id, timer: timer})
 
     }, [])
+
+    // todo: feature disabled because of bug
+    const startLiveUpdates = () => {
+        return
+        if (!process.env.NEXT_PUBLIC_ENABLE_FIRESTORE_UPDATE) {
+            return;
+        }
+
+        if (process.env.NEXT_PUBLIC_FIRESTORE_UPDATE_INTERVAL === undefined) {
+            return;
+        }
+
+        setLiveUpdateInterval(setInterval(() => {
+            onUpdateLog(log.id, {
+                description: log.description,
+                time: timer.getTotalTimeValues().seconds,
+                date: log.date
+            }, true);
+        },parseInt(process.env.NEXT_PUBLIC_FIRESTORE_UPDATE_INTERVAL as unknown as string,10)))
+    }
 
     timer.addEventListener('started', (event) => {
         setTimerPlaying(true);
         setWasInitialTimeChanged(true);
-        // @todo: wip
-        // instances.cleanupOnPlay(log.id)
+        //instances.cleanupOnPlay(log.id)
+        // startLiveUpdates();
     });
 
     timer.addEventListener('paused', () => {
         setTimerPlaying(false);
+        // @ts-ignore
+        window.clearInterval(liveUpdateInterval)
     });
 
     timer.addEventListener('stopped', () => {
         setTimerPlaying(false);
+        // @ts-ignore
+        window.clearInterval(liveUpdateInterval)
     });
 
 
@@ -66,7 +89,6 @@ export function TrackerRow({log, onUpdateLog, onDeleteLog}: Props) {
         if (!wasInitialTimeChanged) {
             return;
         }
-        // @todo think about logic for this
         timer.pause();
         onUpdateLog(log.id, {
             description: log.description,
@@ -105,7 +127,7 @@ export function TrackerRow({log, onUpdateLog, onDeleteLog}: Props) {
             {editMode ?
                 <td>
                     <div className={style.editContainer}>
-                        <InputText value={descriptionEdit} onInput={(e) => setDescriptionEdit(e.target.value)}/>
+                        <InputText value={descriptionEdit} onInput={(e) => setDescriptionEdit((e.target as HTMLInputElement).value)}/>
                         <div className={style.editControl} onClick={onEditSubmit}>✔️</div>
                         <div className={style.editControl} onClick={onEditCancel}>✖️</div>️
                     </div>
