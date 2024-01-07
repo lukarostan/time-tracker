@@ -1,26 +1,19 @@
 "use client";
 import {ReactElement} from 'react';
-import {log} from '@/api/LogRepository';
-import style from './historyTable.module.scss';
-import {TrackerRow} from '@/components/TrackerTable/TrackerRow';
-import {DataTable} from 'primereact/datatable';
-import {Column} from 'primereact/column';
-import {HistoryRow} from '@/components/HistoryTable/HistoryRow';
+import {log} from '@/infrastructure/LogRepository';
+import style from './trackerTable.module.scss';
+import {TrackerRow} from '@/components/TrackerTable/TrackerRow/trackerRow.component';
 
 type Props = {
     logs: log[];
-    onUpdateLog: (id: string, data: Partial<log>) => void;
+    onUpdateLog: (id: string, data: Partial<log>, isLiveUpdate?: boolean) => void;
     onDeleteLog: (id: string) => void;
 }
 
 const columns: { name: string, width: number }[] = [
     {
-        name: "Date",
-        width: 150
-    },
-    {
         name: "Time logged",
-        width: 150
+        width: 220
     },
     {
         name: "Description",
@@ -28,10 +21,11 @@ const columns: { name: string, width: number }[] = [
     },
     {
         name: "Actions",
-        width: 100
+        width: 150
     }
 ];
-export default function HistoryTable({logs, onUpdateLog, onDeleteLog}: Props): ReactElement {
+
+export function TrackerTable({logs, onUpdateLog, onDeleteLog}: Props): ReactElement {
     return (
         <div className={style.logsContainer}>
             <table className={style.logsTable}>
@@ -43,11 +37,7 @@ export default function HistoryTable({logs, onUpdateLog, onDeleteLog}: Props): R
                 </tr>
                 </thead>
                 <tbody>
-                {logs.map(log => <HistoryRow key={log.id}
-                                             log={log}
-                                             onUpdateLog={onUpdateLog}
-                                             onDeleteLog={onDeleteLog}
-                />)}
+                {logs.map(log => <TrackerRow key={log.id} log={log} onUpdateLog={onUpdateLog} onDeleteLog={onDeleteLog}/>)}
                 {logs.length === 0 && <tr>
                     <td>
                         <div className={style.emptyState}><p>No logs available.</p></div>

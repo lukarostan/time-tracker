@@ -1,12 +1,11 @@
 "use client";
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import useTimer from 'easytimer-react-hook';
 import Image from 'next/image';
-import {log} from '@/api/LogRepository';
+import {log} from '@/infrastructure/LogRepository';
 import style from './trackerRow.module.scss';
 import moment from 'moment';
 import {InputText} from 'primereact/inputtext';
-import {InstancesContext} from '@/components/ActiveTrackers';
 
 type Props = {
     log: log;
@@ -29,11 +28,11 @@ export function TrackerRow({log, onUpdateLog, onDeleteLog}: Props) {
         // todo: feature disabled because of bug
         //instances.set({id: log.id, timer: timer})
 
-    }, [])
+    }, []);
 
     // todo: feature disabled because of bug
     const startLiveUpdates = () => {
-        return
+        return;
         if (!process.env.NEXT_PUBLIC_ENABLE_FIRESTORE_UPDATE) {
             return;
         }
@@ -48,8 +47,8 @@ export function TrackerRow({log, onUpdateLog, onDeleteLog}: Props) {
                 time: timer.getTotalTimeValues().seconds,
                 date: log.date
             }, true);
-        },parseInt(process.env.NEXT_PUBLIC_FIRESTORE_UPDATE_INTERVAL as unknown as string,10)))
-    }
+        }, parseInt(process.env.NEXT_PUBLIC_FIRESTORE_UPDATE_INTERVAL as unknown as string, 10)));
+    };
 
     timer.addEventListener('started', (event) => {
         setTimerPlaying(true);
@@ -61,13 +60,13 @@ export function TrackerRow({log, onUpdateLog, onDeleteLog}: Props) {
     timer.addEventListener('paused', () => {
         setTimerPlaying(false);
         // @ts-ignore
-        window.clearInterval(liveUpdateInterval)
+        window.clearInterval(liveUpdateInterval);
     });
 
     timer.addEventListener('stopped', () => {
         setTimerPlaying(false);
         // @ts-ignore
-        window.clearInterval(liveUpdateInterval)
+        window.clearInterval(liveUpdateInterval);
     });
 
 
@@ -106,18 +105,18 @@ export function TrackerRow({log, onUpdateLog, onDeleteLog}: Props) {
         setEditMode(true);
     };
 
-    const onEditCancel = ():void => {
-        setEditMode(false)
-    }
+    const onEditCancel = (): void => {
+        setEditMode(false);
+    };
 
-    const onEditSubmit = ():void => {
+    const onEditSubmit = (): void => {
         onUpdateLog(log.id, {
             description: descriptionEdit,
             time: timer.getTotalTimeValues().seconds,
             date: log.date
         });
         setEditMode(false);
-    }
+    };
 
     const formatted = moment.utc(log.time * 1000).format('HH:mm:ss');
 
@@ -127,9 +126,11 @@ export function TrackerRow({log, onUpdateLog, onDeleteLog}: Props) {
             {editMode ?
                 <td>
                     <div className={style.editContainer}>
-                        <InputText value={descriptionEdit} onInput={(e) => setDescriptionEdit((e.target as HTMLInputElement).value)}/>
+                        <InputText value={descriptionEdit}
+                                   onInput={(e) => setDescriptionEdit((e.target as HTMLInputElement).value)}/>
                         <div className={style.editControl} onClick={onEditSubmit}>✔️</div>
-                        <div className={style.editControl} onClick={onEditCancel}>✖️</div>️
+                        <div className={style.editControl} onClick={onEditCancel}>✖️</div>
+                        ️
                     </div>
                 </td>
                 :
@@ -146,8 +147,7 @@ export function TrackerRow({log, onUpdateLog, onDeleteLog}: Props) {
                     :
                     <Image src="play.svg" alt="start timer" onClick={onPlayClick} height={24} width={24}/>
                 }
-                <Image src="stop.svg" alt="stop timer" onClick={onStopClick} height={24}
-                       width={24}/>
+                <Image src="stop.svg" alt="stop timer" onClick={onStopClick} height={24} width={24}/>
                 <Image src="edit.svg" alt="edit timer" onClick={onEditClick} height={24} width={24}/>
                 <Image src="delete.svg" alt="delete timer" onClick={onDeleteClick} height={24} width={24}/>
             </td>

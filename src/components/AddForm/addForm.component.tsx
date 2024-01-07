@@ -12,37 +12,38 @@ type Props = {
     onAddCancel: () => void
 }
 
-const getSecondsFromInputMask = (input: string):number => {
+const getSecondsFromInputMask = (input: string): number => {
     const result = input.split(':');
-    if(result.length < 3) {
-        return 0
+    if (result.length < 3) {
+        return 0;
     }
     // Note: not expected to be changed because of constant input
-    return parseInt(result[2],10) + parseInt(result[1],10)* 60 + parseInt(result[0],10) * 3600
-}
+    return parseInt(result[2], 10) + parseInt(result[1], 10) * 60 + parseInt(result[0], 10) * 3600;
+};
 
-export default function AddForm({onAddSubmit, onAddCancel}: Props) {
-    const [description, setDescription] = useState<string>('')
-    const [time, setTime] = useState<string>('')
+export function AddForm({onAddSubmit, onAddCancel}: Props) {
+    const [description, setDescription] = useState<string>('');
+    const [time, setTime] = useState<string>('');
 
     useEffect(() => {
         return () => {
-            setDescription('')
-            setTime('')
-        }
-    }, [])
+            setDescription('');
+            setTime('');
+        };
+    }, []);
 
     const submit = () => {
         if (description.length === 0) {
-            return
+            return;
         }
-        onAddSubmit(getSecondsFromInputMask(time), description)
-
-    }
+        onAddSubmit(getSecondsFromInputMask(time), description);
+    };
 
     return (<div className={style.addForm}>
-        <InputMask placeholder="Time (max: 23:59:59)" mask="99:99:99" onChange={(e) => setTime(e.target.value as unknown as string)} slotChar={'HH:MM:SS'}/>
-        <InputText style={{minWidth: '400px'}} placeholder="Description (required)" onChange={(e) => setDescription(e.target.value)}/>
+        <InputMask placeholder="Time (max: 23:59:59)" mask="99:99:99"
+                   onChange={(e) => setTime(e.target.value as unknown as string)} slotChar={'HH:MM:SS'}/>
+        <InputText style={{minWidth: '400px'}} placeholder="Description (required)"
+                   onChange={(e) => setDescription(e.target.value)}/>
         <div className={clsx(controlsStyle.controlsWrapper, style.controlsWrapper)}>
             <Button iconPos="left" className={controlsStyle.primary} onClick={() => submit()}>
                 <span>Confirm</span>

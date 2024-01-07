@@ -1,8 +1,8 @@
 import {ReactElement} from 'react';
 import style from './header.module.scss';
 import Image from 'next/image';
-import HeaderNavigation from '@/components/HeaderNavigationItem';
 import Link from 'next/link';
+import {HeaderNavigationItem} from '@/components/HeaderNavigationItem';
 
 const navigationItems = [
     {
@@ -26,7 +26,8 @@ const navigationItems = [
         alt: "logout",
         link: '/'
     }];
-export default function Header(): ReactElement {
+
+export function Header(): ReactElement {
 
     return (
         <header className={style.pageHeader}>
@@ -37,7 +38,7 @@ export default function Header(): ReactElement {
                 </div>
             </Link>
             <div className={style.navigationWrapper}>
-                {navigationItems.map(item => <HeaderNavigation key={item.id} props={item}/>)}
+                {navigationItems.map(item => <HeaderNavigationItem key={item.id} props={item}/>)}
             </div>
         </header>
     );
