@@ -6,7 +6,7 @@ import {TrackerRow} from '@/components/TrackerTable/TrackerRow';
 
 type Props = {
     logs: log[];
-    onUpdateLog: (id: string, data: Partial<log>) => void;
+    onUpdateLog: (id: string, data: Partial<log>, isLiveUpdate?: boolean) => void;
     onDeleteLog: (id: string) => void;
 }
 

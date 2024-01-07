@@ -1,12 +1,10 @@
 "use client";
-import { useEffect, useState} from 'react';
-import useTimer from 'easytimer-react-hook';
+import {ChangeEvent, useState} from 'react';
 import Image from 'next/image';
 import {log} from '@/api/LogRepository';
 import style from './historyRow.module.scss';
 import moment from 'moment';
 import {InputText} from 'primereact/inputtext';
-import {InstancesContext} from '@/components/ActiveTrackers';
 
 type Props = {
     log: log;
@@ -46,7 +44,7 @@ export function HistoryRow({log, onUpdateLog, onDeleteLog}: Props) {
             {editMode ?
                 <td>
                     <div className={style.editContainer}>
-                        <InputText value={descriptionEdit} onInput={(e) => setDescriptionEdit(e.target.value)}/>
+                        <InputText value={descriptionEdit} onInput={e => setDescriptionEdit((e.target as HTMLInputElement).value)}/>
                         <div className={style.editControl} onClick={onEditSubmit}>✔️</div>
                         <div className={style.editControl} onClick={onEditCancel}>✖️</div>️
                     </div>

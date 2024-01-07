@@ -8,7 +8,7 @@ import {Button} from 'primereact/button';
 import AddForm from '@/components/AddForm';
 import Timer from 'easytimer.js';
 
-export const InstancesContext = createContext([]);
+export const InstancesContext = createContext<contextValue>({} as unknown as contextValue);
 
 type contextValue = {
     set: (instance: {id: string, timer: Timer}) => void;
@@ -59,19 +59,22 @@ export function ActiveTrackers(): ReactElement {
     };
 
 
-    const onUpdateLog = async (id: string, data: Partial<log>) => {
-        const updatedLogs = logs.map(log => {
-            if (log.id === id) {
-                return {
-                    id: log.id,
-                    time: log.time,
-                    description: data.description as string,
-                    date: log.date
-                };
-            }
-            return log;
-        });
-        setLogs(updatedLogs as unknown as log[]);
+    const onUpdateLog = async (id: string, data: Partial<log>, isLiveUpdate: boolean = false) => {
+        // Note: on live update skip state update because it kills the interval
+        if (!isLiveUpdate) {
+            const updatedLogs = logs.map(log => {
+                if (log.id === id) {
+                    return {
+                        id: log.id,
+                        time: log.time,
+                        description: data.description as string,
+                        date: log.date
+                    };
+                }
+                return log;
+            });
+            setLogs(updatedLogs as unknown as log[]);
+        }
         await repository.updateLog(id, data);
     };
 
@@ -81,16 +84,22 @@ export function ActiveTrackers(): ReactElement {
     };
 
     const cleanupOnPlay = (playedId: string) => {
-        // @todo: wip
+        // todo: feature disabled because of bug
         let instancesToPause = trackerInstances
         instancesToPause = instancesToPause.filter(instance => instance.id !== playedId)
         instancesToPause.forEach(instance => instance.timer.pause())
     }
 
+    const stopAllTimers = () => {
+        let instancesToStop = trackerInstances
+        instancesToStop.forEach(instance => instance.timer.stop())
+    }
+
+
     const today = moment().format('DD.MM.YYYY');
 
     return <InstancesContext.Provider value={contextValue}>
-        <div className={style.activeTrackers}>
+    <div className={style.activeTrackers}>
             <div className={style.currentDate}>
                 <Image src="calendar.svg" alt={today} width={25} height={25}/>
                 <h2>Today ({today})</h2>
@@ -100,13 +109,14 @@ export function ActiveTrackers(): ReactElement {
                     <Image src="timer.svg" alt="start new timer" width={25} height={25}/>
                     <span>Start new timer</span>
                 </Button>
-                <Button iconPos="left" className={style.secondary}>
-                    <Image src="stop.svg" alt="stop all timers" width={25} height={25} onClick={ () => console.log("todo")/*@todo*/}/>
+                <Button iconPos="left" className={style.secondary} onClick={() => stopAllTimers()}>
+                    <Image src="stop.svg" alt="stop all timers" width={25} height={25}/>
                     <span>Stop all</span>
                 </Button>
             </div>
             {addMode && <AddForm onAddCancel={onAddCancel} onAddSubmit={onAddSubmit}/>}
-            <TrackerTable logs={logs} onUpdateLog={onUpdateLog} onDeleteLog={onDeleteLog}></TrackerTable>
+        <TrackerTable logs={logs} onUpdateLog={onUpdateLog} onDeleteLog={onDeleteLog}></TrackerTable>
         </div>
-    </InstancesContext.Provider>;
+    </InstancesContext.Provider>
+    ;
 }

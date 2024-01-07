@@ -9,8 +9,8 @@ import moment from 'moment';
 
 export function History(): ReactElement {
     const [logs, setLogs] = useState<[] | log[]>([]);
-    const [startDateFilter, setStartDateFilter] = useState(null);
-    const [endDateFilter, setEndDateFilter] = useState(null);
+    const [startDateFilter, setStartDateFilter] = useState<Date | null>();
+    const [endDateFilter, setEndDateFilter] = useState<Date | null>();
     const [descriptionFilter, setDescriptionFilter] = useState<string>('')
     const repository: LogRepository = new LogRepository();
 
@@ -72,11 +72,11 @@ export function History(): ReactElement {
             </div>
             <div className={style.controlsWrapper}>
                 <span className={clsx(style.inputContainer,"p-float-label")}>
-                    <Calendar style={{width: '100%'}} dateFormat="dd.mm.yy." inputId="start_date" value={startDateFilter} onChange={(e) => setStartDateFilter(e.value)} />
+                    <Calendar style={{width: '100%'}} dateFormat="dd.mm.yy." inputId="start_date" value={startDateFilter} onChange={(e) => setStartDateFilter(e.value as unknown as Date)} />
                     <label style={{transform: 'translateY(-0.25rem)'}} htmlFor="start_date">Start Date</label>
                 </span>
                 <span className={clsx(style.inputContainer,"p-float-label")}>
-                    <Calendar style={{width: '100%'}} dateFormat="dd.mm.yy." inputId="end_date" value={endDateFilter} onChange={(e) => setEndDateFilter(e.value)} />
+                    <Calendar style={{width: '100%'}} dateFormat="dd.mm.yy." inputId="end_date" value={endDateFilter} onChange={(e) => setEndDateFilter(e.value as unknown as Date)} />
                     <label style={{transform: 'translateY(-0.25rem)'}} htmlFor="end_date">End Date</label>
                 </span>
                 <span className={clsx(style.inputContainer,"p-float-label")}>
