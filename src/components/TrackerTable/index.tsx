@@ -31,7 +31,9 @@ export default function TrackerTable({logs, onUpdateLog, onDeleteLog}: Props): R
             <table className={style.logsTable}>
                 <thead className={style.headerRow}>
                 <tr>
-                    {columns.map((column, index) => <td key={index}><div style={{minWidth: `${column.width}px`}}>{column.name}</div></td>)}
+                    {columns.map((column, index) => <td key={index}>
+                        <div style={{minWidth: `${column.width}px`}}>{column.name}</div>
+                    </td>)}
                 </tr>
                 </thead>
                 <tbody>
@@ -40,6 +42,11 @@ export default function TrackerTable({logs, onUpdateLog, onDeleteLog}: Props): R
                                              onUpdateLog={onUpdateLog}
                                              onDeleteLog={onDeleteLog}
                 />)}
+                {logs.length === 0 && <tr>
+                    <td>
+                        <div className={style.emptyState}><p>No logs available.</p></div>
+                    </td>
+                </tr>}
                 </tbody>
             </table>
         </div>);

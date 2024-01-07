@@ -48,6 +48,11 @@ export default function HistoryTable({logs, onUpdateLog, onDeleteLog}: Props): R
                                              onUpdateLog={onUpdateLog}
                                              onDeleteLog={onDeleteLog}
                 />)}
+                {logs.length === 0 && <tr>
+                    <td>
+                        <div className={style.emptyState}><p>No logs available.</p></div>
+                    </td>
+                </tr>}
                 </tbody>
             </table>
         </div>);
