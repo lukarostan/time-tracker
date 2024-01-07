@@ -8,7 +8,8 @@ import {
     Firestore,
     getDocs,
     getFirestore,
-    setDoc
+    setDoc,
+    query, where
 } from "firebase/firestore";
 import {mapLogFromResponse} from '@/infrastructure/LogMapper';
 import {log} from '@/api/LogRepository';
@@ -55,6 +56,34 @@ class FirestoreInitializer {
             console.error(e)
         }
 
+    }
+
+    async getByQuery(path: string, description: string = '', startDate: number, endDate: number): Promise<log[] | undefined> {
+        try {
+            let formattedLogs: log[] = [];
+            const docsRef = collection(db, path);
+
+            let q = query(docsRef,  where("description", ">=", description))
+
+            if (!!startDate && !!endDate) {
+                q = query(docsRef,
+                    where("date", "<=", endDate),
+                    where("date", ">=", startDate),
+                )
+            }
+
+
+            const response = await getDocs(q)
+
+            response.forEach(document => {
+                formattedLogs.push(mapLogFromResponse(document.id, document.data()));
+            })
+
+            return formattedLogs
+        }
+        catch (e: unknown) {
+            console.error(e)
+        }
     }
 
     async add(path: string, data: Partial<log>): Promise<DocumentReference | {}> {

@@ -31,7 +31,7 @@ export function ActiveTrackers(): ReactElement {
 
 
     const getLogs = async () => {
-        const logs = await repository.getLogs();
+        const logs = await repository.getLogsOfToday();
         setLogs(logs);
     };
 
@@ -50,7 +50,8 @@ export function ActiveTrackers(): ReactElement {
     const onAddSubmit = async (time: number, description: string) => {
         const logModel = {
             time,
-            description
+            description,
+            date: parseInt(moment().format('X'), 10)
         };
         await repository.addLog(logModel);
         getLogs()
@@ -64,7 +65,8 @@ export function ActiveTrackers(): ReactElement {
                 return {
                     id: log.id,
                     time: log.time,
-                    description: data.description as string
+                    description: data.description as string,
+                    date: log.date
                 };
             }
             return log;

@@ -1,8 +1,11 @@
 "use client";
 import {ReactElement} from 'react';
 import {log} from '@/api/LogRepository';
-import style from './trackerTable.module.scss';
+import style from './historyTable.module.scss';
 import {TrackerRow} from '@/components/TrackerTable/TrackerRow';
+import {DataTable} from 'primereact/datatable';
+import {Column} from 'primereact/column';
+import {HistoryRow} from '@/components/HistoryTable/HistoryRow';
 
 type Props = {
     logs: log[];
@@ -12,8 +15,12 @@ type Props = {
 
 const columns: { name: string, width: number }[] = [
     {
+        name: "Date",
+        width: 150
+    },
+    {
         name: "Time logged",
-        width: 220
+        width: 150
     },
     {
         name: "Description",
@@ -21,11 +28,10 @@ const columns: { name: string, width: number }[] = [
     },
     {
         name: "Actions",
-        width: 150
+        width: 100
     }
 ];
-
-export default function TrackerTable({logs, onUpdateLog, onDeleteLog}: Props): ReactElement {
+export default function HistoryTable({logs, onUpdateLog, onDeleteLog}: Props): ReactElement {
     return (
         <div className={style.logsContainer}>
             <table className={style.logsTable}>
@@ -37,7 +43,7 @@ export default function TrackerTable({logs, onUpdateLog, onDeleteLog}: Props): R
                 </tr>
                 </thead>
                 <tbody>
-                {logs.map(log => <TrackerRow key={log.id}
+                {logs.map(log => <HistoryRow key={log.id}
                                              log={log}
                                              onUpdateLog={onUpdateLog}
                                              onDeleteLog={onDeleteLog}

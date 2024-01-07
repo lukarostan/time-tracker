@@ -2,6 +2,7 @@ import {ReactElement} from 'react';
 import style from './header.module.scss';
 import Image from 'next/image';
 import HeaderNavigation from '@/components/HeaderNavigationItem';
+import Link from 'next/link';
 
 const navigationItems = [
     {
@@ -9,32 +10,34 @@ const navigationItems = [
         title: "Trackers",
         imageName: "clock",
         alt: "trackers",
-        isActive: false
+        link: '/trackers'
     },
     {
         id: 2,
         title: "History",
         imageName: "history",
         alt: "history",
-        isActive: false
+        link: '/history'
     },
     {
         id: 3,
         title: "Logout",
         imageName: "logout",
         alt: "logout",
-        isActive: false
+        link: '/'
     }];
 export default function Header(): ReactElement {
 
     return (
         <header className={style.pageHeader}>
-            <div className={style.logoWrapper}>
-                <Image width="162" height="44" alt="company logo" src="logo.svg"/>
-                <p>Tracking tool</p>
-            </div>
+            <Link href={"/"} style={{textDecoration: 'none'}}>
+                <div className={style.logoWrapper}>
+                    <Image width="162" height="44" alt="company logo" src="logo.svg"/>
+                    <p>Tracking tool</p>
+                </div>
+            </Link>
             <div className={style.navigationWrapper}>
-                {navigationItems.map(item => <HeaderNavigation key={item.id} title={item.title} imageName={item.imageName} alt={item.alt} isActive={item.isActive}/>)}
+                {navigationItems.map(item => <HeaderNavigation key={item.id} props={item}/>)}
             </div>
         </header>
     );
