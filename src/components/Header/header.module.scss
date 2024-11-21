@@ -12,18 +12,21 @@
     align-items: flex-end;
     display: flex;
     flex-direction: row;
-    p {
-      color: white;
-      text-decoration: none;
-      position: relative;
-      margin-left: 10px;
-      top: -8px;
-      font-size: 24px;
-    }
   }
   .navigationWrapper {
     display: flex;
     flex-direction: row;
     padding: 50px 80px 0 0 ;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .pageHeader {
+    .logoWrapper {
+      padding: 34px 8px 34px 30px;
+    }
+    .navigationWrapper {
+      padding: 40px 0 0 0 ;
+    }
   }
 }

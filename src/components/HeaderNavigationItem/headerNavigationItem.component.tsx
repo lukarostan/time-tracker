@@ -18,10 +18,10 @@ export function HeaderNavigationItem({props}: Props): ReactElement {
     const pathname = usePathname();
 
     return (
-        <div
-            className={clsx(style.headerNavigationItem, pathname !== '/' && pathname === props.link ? style.active : '')}>
-            <Image width="24" height="24" alt={props.alt} src={`${props.imageName}.svg`}/>
-            <Link href={props.link} className={style.title} style={{textDecoration: 'none'}}>{props.title}</Link>
-        </div>
+        <Link href={props.link}
+              className={clsx(style.headerNavigationItem, pathname !== '/' && pathname === props.link ? style.active : '')}>
+            <Image className={style.icon} width="24" height="24" title={props.alt} alt={props.alt} src={`${props.imageName}.svg`}/>
+            <span className={style.title} style={{textDecoration: 'none'}}>{props.title}</span>
+        </Link>
     );
 }

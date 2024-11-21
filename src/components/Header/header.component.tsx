@@ -9,21 +9,21 @@ const navigationItems = [
         id: 1,
         title: "Trackers",
         imageName: "clock",
-        alt: "trackers",
+        alt: "Trackers",
         link: '/trackers'
     },
     {
         id: 2,
         title: "History",
         imageName: "history",
-        alt: "history",
+        alt: "History",
         link: '/history'
     },
     {
         id: 3,
         title: "Logout",
         imageName: "logout",
-        alt: "logout",
+        alt: "Logout",
         link: '/'
     }];
 
@@ -34,7 +34,6 @@ export function Header(): ReactElement {
             <Link href={"/"} style={{textDecoration: 'none'}}>
                 <div className={style.logoWrapper}>
                     <Image width="162" height="44" alt="company logo" src="logo.svg"/>
-                    <p>Tracking tool</p>
                 </div>
             </Link>
             <div className={style.navigationWrapper}>

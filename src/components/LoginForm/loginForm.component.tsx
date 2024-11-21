@@ -14,8 +14,9 @@ export function LoginForm({onLoginClick}: Props) {
         <div className={style.formWrapper}>
             <div className={style.loginForm}>
                 <p>Login</p>
+                <span>Mocked form - just hit login!</span>
                 <InputText placeholder="Username"/>
-                <Password  style={{width: '100%'}} placeholder="Password" toggleMask />
+                <InputText placeholder="Password" />
                 <Link href={'/trackers'}>Login</Link>
             </div>
             <div className={style.registrationCta}>

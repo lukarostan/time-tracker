@@ -10,20 +10,49 @@
   cursor: pointer;
   position: relative;
   justify-content: center;
+
   &.active {
     :after {
       content: '';
       display: block;
       width: 100%;
       height: 5px;
-      background: $devot-orange;
+      background: $orange;
       border-radius: $global-radius;
       position: absolute;
       left: 0;
       top: 60px;
     }
   }
+
   img {
     margin-right: 8px;
+  }
+}
+
+
+@media screen and (max-width: 1024px) {
+  .headerNavigationItem {
+    width: 90px;
+
+    .title {
+      display: none;
+    }
+    .icon {
+      width: 35px;
+      height: 35px;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .headerNavigationItem {
+    width: 60px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .headerNavigationItem {
+    width: 50px;
   }
 }
