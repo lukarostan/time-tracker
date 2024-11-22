@@ -1,6 +1,7 @@
 import { DocumentReference } from 'firebase/firestore';
 import moment from 'moment';
 
+import { getFromLocalStorage, saveToLocalStorage } from '@/infrastructure/LocalStorage';
 import firestoreInstance from '@/services/FirestoreInitializer';
 
 export type log = {
@@ -28,26 +29,35 @@ export default class LogRepository {
   }
 
   async getLogs(): Promise<log[] | []> {
-    const logs = await firestoreInstance.get('log');
+    // const logs = await firestoreInstance.get("log");
+    const existingLogs = localStorage.getItem('logs');
+    if (existingLogs) {
+      const parsedLogs = JSON.parse(existingLogs);
 
-    if (logs === undefined) {
+      return this.formatLogs(parsedLogs);
+    }
+
+    if (existingLogs === undefined) {
       throw new Error('Unable to process request.');
     }
 
-    return this.formatLogs(logs);
+    return [];
   }
 
   async getLogsOfToday(): Promise<log[] | []> {
     const startOfDay = parseInt(moment().startOf('day').format('X'), 10);
     const endOfDay = parseInt(moment().endOf('day').format('X'), 10);
 
-    const logs = await firestoreInstance.getByQuery('log', '', startOfDay, endOfDay);
+    console.log(startOfDay);
+    console.log(endOfDay);
 
-    if (logs === undefined) {
-      throw new Error('Unable to process request.');
-    }
+    const logs = getFromLocalStorage('logs');
 
-    return this.formatLogs(logs);
+    const todaysLogs = logs.filter((log) => {
+      return log.date > startOfDay && log.date < endOfDay;
+    });
+
+    return this.formatLogs(todaysLogs);
   }
 
   async getFilteredLogs(description: string, startDate: string, endDate: string): Promise<log[] | []> {
@@ -72,8 +82,15 @@ export default class LogRepository {
   }
 
   async addLog(data: Partial<log>): Promise<DocumentReference | {}> {
-    const id = await firestoreInstance.add('log', data);
-    return id;
+    const existingLogs = getFromLocalStorage('logs');
+    if (existingLogs.length > 0) {
+      const newData = [...existingLogs, data];
+      saveToLocalStorage('logs', newData);
+      return data.id ? data.id : '';
+    }
+
+    saveToLocalStorage('logs', [data]);
+    return data.id ? data.id : '';
   }
 
   async updateLog(id: string, data: Partial<log>): Promise<boolean> {
