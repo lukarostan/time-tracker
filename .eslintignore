@@ -1,0 +1,9 @@
+/lambda/
+/scripts
+/config
+.history
+src/service-worker.js
+src/index.tsx
+/.idea
+/.github
+/public
