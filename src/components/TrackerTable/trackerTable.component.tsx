@@ -9,7 +9,7 @@ import { log } from '@/infrastructure/LogRepository';
 type Props = {
   logs: log[];
   onUpdateLog: (id: string, data: Partial<log>, isLiveUpdate?: boolean) => void;
-  onDeleteLog: (id: string) => void;
+  onDeleteLog: (id: number) => void;
 };
 
 const columns: { name: string; width: number }[] = [

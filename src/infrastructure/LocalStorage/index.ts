@@ -14,7 +14,7 @@ export const getFromLocalStorage = (key: string): log[] => {
   }
 };
 
-export const saveToLocalStorage = (key: string, data: log): log | {} => {
+export const saveToLocalStorage = (key: string, data: log[]): log | {} => {
   if (!key) {
     return {};
   }

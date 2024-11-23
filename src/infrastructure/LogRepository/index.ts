@@ -5,7 +5,7 @@ import { getFromLocalStorage, saveToLocalStorage } from '@/infrastructure/LocalS
 import firestoreInstance from '@/services/FirestoreInitializer';
 
 export type log = {
-  id: string;
+  id: number;
   description: string;
   time: number;
   date: number;
@@ -81,25 +81,33 @@ export default class LogRepository {
     return this.formatLogs(logs);
   }
 
-  async addLog(data: Partial<log>): Promise<DocumentReference | {}> {
+  async addLog(data: log): Promise<DocumentReference | {}> {
     const existingLogs = getFromLocalStorage('logs');
     if (existingLogs.length > 0) {
+      const maxId = Math.max(...existingLogs.map((o) => o.id));
+      data.id = maxId + 1;
+
       const newData = [...existingLogs, data];
       saveToLocalStorage('logs', newData);
       return data.id ? data.id : '';
     }
 
+    data.id = 1; //set default id to 1 if previous logs don't exist
     saveToLocalStorage('logs', [data]);
     return data.id ? data.id : '';
   }
 
-  async updateLog(id: string, data: Partial<log>): Promise<boolean> {
+  async updateLog(id: number, data: Partial<log>): Promise<boolean> {
     const res = await firestoreInstance.update('log', id, data);
     return res;
   }
 
-  async deleteLog(id: string): Promise<boolean> {
-    const res = await firestoreInstance.delete('log', id);
-    return res;
+  async deleteLog(id: number): log[] {
+    const existingLogs = getFromLocalStorage('logs');
+
+    const updatedLogs = existingLogs.filter((log) => log.id !== id);
+
+    saveToLocalStorage('logs', updatedLogs);
+    return updatedLogs;
   }
 }

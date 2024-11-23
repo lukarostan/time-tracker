@@ -20,12 +20,12 @@ export function ActiveTrackers(): ReactElement {
   const [logs, setLogs] = useState<[] | log[]>([]);
   const repository: LogRepository = new LogRepository();
   const [addMode, setAddMode] = useState<boolean>(false);
-  const [trackerInstances, setTrackerInstances] = useState<{ id: string; timer: Timer }[]>([]);
+  const [trackerInstances, setTrackerInstances] = useState<{ id: number; timer: Timer }[]>([]);
   const contextValue = {
-    set: (instance: { id: string; timer: Timer }) => {
+    set: (instance: { id: number; timer: Timer }) => {
       setTrackerInstances((prevState) => [...prevState, instance]);
     },
-    cleanupOnPlay: (id: string) => cleanupOnPlay(id),
+    cleanupOnPlay: (id: number) => cleanupOnPlay(id),
     trackerInstances: trackerInstances,
   } as unknown as contextValue;
 
@@ -57,7 +57,7 @@ export function ActiveTrackers(): ReactElement {
     setAddMode(false);
   };
 
-  const onUpdateLog = async (id: string, data: Partial<log>, isLiveUpdate: boolean = false) => {
+  const onUpdateLog = async (id: number, data: Partial<log>, isLiveUpdate: boolean = false) => {
     // Note: on live update skip state update because it kills the interval
     if (!isLiveUpdate) {
       const updatedLogs = logs.map((log) => {
@@ -76,12 +76,12 @@ export function ActiveTrackers(): ReactElement {
     await repository.updateLog(id, data);
   };
 
-  const onDeleteLog = async (id: string) => {
+  const onDeleteLog = async (id: number) => {
     setLogs((prevState) => prevState.filter((log) => id !== log.id));
     await repository.deleteLog(id);
   };
 
-  const cleanupOnPlay = (playedId: string) => {
+  const cleanupOnPlay = (playedId: number) => {
     // todo: feature disabled because of bug
     let instancesToPause = trackerInstances;
     instancesToPause = instancesToPause.filter((instance) => instance.id !== playedId);

@@ -12,7 +12,7 @@ import { log } from '@/infrastructure/LogRepository';
 type Props = {
   log: log;
   onUpdateLog: (id: string, data: Partial<log>, isLiveUpdate?: boolean) => void;
-  onDeleteLog: (id: string) => void;
+  onDeleteLog: (id: number) => void;
 };
 
 export function TrackerRow({ log, onUpdateLog, onDeleteLog }: Props) {
@@ -106,6 +106,7 @@ export function TrackerRow({ log, onUpdateLog, onDeleteLog }: Props) {
   };
 
   const onDeleteClick = (): void => {
+    console.log(log.id)
     timer.pause();
     onDeleteLog(log.id);
   };
