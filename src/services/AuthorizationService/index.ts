@@ -1,19 +1,19 @@
 export function login() {
-    localStorage.setItem('isLoggedIn', 'true');
+  localStorage.setItem('isLoggedIn', 'true');
 }
 
 export function isLoggedIn() {
-    const result = localStorage.getItem('isLoggedIn');
+  const result = localStorage.getItem('isLoggedIn');
 
-    if (result === null) {
-        return;
-    }
+  if (result === null) {
+    return;
+  }
 
-    if (result === 'true') {
-        return true;
-    }
+  if (result === 'true') {
+    return true;
+  }
 }
 
 export function logout() {
-    localStorage.removeItem('isLoggedIn');
+  localStorage.removeItem('isLoggedIn');
 }

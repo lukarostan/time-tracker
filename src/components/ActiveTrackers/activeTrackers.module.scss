@@ -1,4 +1,4 @@
-@import "src/app/variables.module";
+@import 'src/app/variables.module';
 
 .activeTrackers {
   display: flex;
@@ -24,7 +24,8 @@
     justify-content: flex-end;
     margin-bottom: 36px;
     align-self: flex-end;
-    .primary, .secondary {
+    .primary,
+    .secondary {
       display: flex;
       flex-direction: row;
       align-items: center;
@@ -34,7 +35,7 @@
         margin-right: 10px;
       }
       &:hover {
-        transform: scale(1.02)
+        transform: scale(1.02);
       }
     }
     .primary {

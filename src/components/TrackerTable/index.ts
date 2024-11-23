@@ -1,1 +1,1 @@
-export {TrackerTable} from './trackerTable.component';
+export { TrackerTable } from './trackerTable.component';

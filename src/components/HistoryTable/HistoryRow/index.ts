@@ -1,1 +1,1 @@
-export {HistoryRow} from './historyRow.component';
+export { HistoryRow } from './historyRow.component';

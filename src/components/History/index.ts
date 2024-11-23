@@ -1,1 +1,1 @@
-export {History} from './history.component';
+export { History } from './history.component';

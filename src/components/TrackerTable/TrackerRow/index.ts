@@ -1,1 +1,1 @@
-export {TrackerRow} from './trackerRow.component';
+export { TrackerRow } from './trackerRow.component';

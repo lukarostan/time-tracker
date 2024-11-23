@@ -1,1 +1,1 @@
-export {ActiveTrackers} from './activeTrackers.component';
+export { ActiveTrackers } from './activeTrackers.component';

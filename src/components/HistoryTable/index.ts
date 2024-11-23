@@ -1,1 +1,1 @@
-export {HistoryTable} from './historyTable.component';
+export { HistoryTable } from './historyTable.component';
