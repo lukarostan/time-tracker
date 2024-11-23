@@ -11,7 +11,7 @@ Then run a development or production server.
 ```bash
 npm run dev
 # or
-npm run build 
+npm run build
 # then
 npm run start
 ```

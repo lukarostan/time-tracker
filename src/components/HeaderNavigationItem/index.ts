@@ -1,1 +1,1 @@
-export {HeaderNavigationItem} from './headerNavigationItem.component';
+export { HeaderNavigationItem } from './headerNavigationItem.component';

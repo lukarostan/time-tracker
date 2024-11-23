@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "prettier --check .",
+    "prettier-fix": "prettier --write ."
   },
   "dependencies": {
     "clsx": "^2.0.0",
@@ -14,18 +16,22 @@
     "easytimer.js": "^4.6.0",
     "firebase": "^10.7.1",
     "moment": "^2.29.4",
-    "next": "14.0.4",
+    "next": "^14.2.18",
     "primereact": "^10.2.1",
     "react": "^18",
     "react-dom": "^18",
     "sass": "^1.69.5"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.15.0"
   }
 }

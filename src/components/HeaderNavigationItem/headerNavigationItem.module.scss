@@ -1,4 +1,4 @@
-@import "src/app/variables.module";
+@import 'src/app/variables.module';
 
 .headerNavigationItem {
   display: flex;
@@ -29,7 +29,6 @@
     margin-right: 8px;
   }
 }
-
 
 @media screen and (max-width: 1024px) {
   .headerNavigationItem {
